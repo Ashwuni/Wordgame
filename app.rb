@@ -48,10 +48,11 @@ class WordgameApp < Sinatra::Base
       valid = false
     end
       
-    if !valid 
-      flash[:message]='Invalid guess.'
-    elsif !valid&& repeated
+    
+    if !valid && repeated
       flash[:message]='You have already used that letter.'
+    elsif !valid 
+      flash[:message]='Invalid guess.'
 
     end
     # Note: in addition to passing the provided Cucumber tests, you also need
