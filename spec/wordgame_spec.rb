@@ -10,7 +10,7 @@ describe WordGame do
   end
 
   describe 'new' do
-    xit "takes a parameter and returns a WordGame object" do      
+    it "takes a parameter and returns a WordGame object" do      
       @wordGame = WordGame.new('glorp')
       expect(@wordGame).to be_an_instance_of(WordGame)
       expect(@wordGame.word).to eq('glorp')
@@ -27,11 +27,11 @@ describe WordGame do
         # the user guesses 'a' and we tell game this via the guess method  
         @valid = @game.guess('a') 
       end
-      xit 'changes correct guess list' do
+      it 'changes correct guess list' do
         expect(@game.guesses).to eq('a') # see above @game.guess('a')
         expect(@game.wrong_guesses).to eq('')
       end
-      xit 'returns true' do
+      it 'returns true' do
         expect(@valid).not_to be false
       end
     end
@@ -40,11 +40,11 @@ describe WordGame do
         @game = WordGame.new('garply')
         @valid = @game.guess('z')
       end
-      xit 'changes wrong guess list' do
+      it 'changes wrong guess list' do
         expect(@game.guesses).to eq('')
         expect(@game.wrong_guesses).to eq('z')
       end
-      xit 'returns true' do
+      it 'returns true' do
         expect(@valid).not_to be false
       end
     end
@@ -53,19 +53,19 @@ describe WordGame do
         @game = WordGame.new('garply')
         guess_several_letters(@game, 'aq')
       end
-      xit 'does not change correct guess list' do
+      it 'does not change correct guess list' do
         @game.guess('a')
         expect(@game.guesses).to eq('a')
       end
-      xit 'does not change wrong guess list' do
+      it 'does not change wrong guess list' do
         @game.guess('q')
         expect(@game.wrong_guesses).to eq('q')
       end
-      xit 'returns false' do
+      it 'returns false' do
         expect(@game.guess('a')).to be false
         expect(@game.guess('q')).to be false
       end
-      xit 'is case insensitive' do
+      it 'is case insensitive' do
         expect(@game.guess('A')).to be false
         expect(@game.guess('Q')).to be false
         expect(@game.guesses).not_to include('A')
@@ -76,13 +76,13 @@ describe WordGame do
       before :each do
         @game = WordGame.new('foobar')
       end
-      xit 'throws an error when empty' do
+      it 'throws an error when empty' do
         expect { @game.guess('') }.to raise_error(ArgumentError)
       end
-      xit 'throws an error when not a letter' do
+      it 'throws an error when not a letter' do
         expect { @game.guess('%') }.to raise_error(ArgumentError)
       end
-      xit 'throws an error when nil' do
+      it 'throws an error when nil' do
         expect { @game.guess(nil) }.to raise_error(ArgumentError)
       end
     end
@@ -99,7 +99,7 @@ describe WordGame do
       'ban' => 'banana'
     }
     @test_cases.each_pair do |guesses, displayed|
-      xit "should be '#{displayed}' when guesses are '#{guesses}'" do
+      it "should be '#{displayed}' when guesses are '#{guesses}'" do
         guess_several_letters(@game, guesses)
         expect(@game.word_with_guesses).to eq(displayed)
       end
@@ -110,15 +110,15 @@ describe WordGame do
     before :each do 
       @game = WordGame.new('dog')
     end
-    xit 'should be win when all letters guessed' do
+    it 'should be win when all letters guessed' do
       guess_several_letters(@game, 'ogd')
       expect(@game.check_win_or_lose).to eq(:win)
     end
-    xit 'should be lose after 7 incorrect guesses' do
+    it 'should be lose after 7 incorrect guesses' do
       guess_several_letters(@game, 'tuvwxyz')
       expect(@game.check_win_or_lose).to eq(:lose)
     end
-    xit 'should continue play if neither win nor lose' do
+    it 'should continue play if neither win nor lose' do
       guess_several_letters(@game, 'do')
       expect(@game.check_win_or_lose).to eq(:play)
     end
