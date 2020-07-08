@@ -36,7 +36,7 @@ class WordGame
           elsif (letter_guess.empty? || letter_guess[/[a-zA-Z]+/]!=letter_guess)
               raise ArgumentError.new("Error")
           else
-              i = 0
+              
               word = @word.split(//)
               letter_guess = letter_guess.downcase
 
@@ -48,25 +48,27 @@ class WordGame
 
                   if @word.include?(letter_guess)
                       @guesses.concat(letter_guess)
-                      for i in 0..word.length-1
-                          for j in 0..@guesses.length-1
+                      for i in 0..@word.size-1
+                          for j in 0..@guesses.size-1
                               if word[i] == @guesses[j]
                                   @show_word[i] = @guesses[j] 
                               end
                           end
                       end
+                      return true
                   else
                       @wrong_guesses.concat(letter_guess)
+                      return true
                   end
 
               #break if @wrong_guesses.size <= 7
               end 
 
-              if @word = @show_word
-                 return true
-              else @word != @show_word
-                 return false
-              end     
+             # if @word = @show_word
+              #   return true
+              #else @word != @show_word
+               #  return false
+              #e#nd     
           end
   end 
 
