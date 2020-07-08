@@ -40,6 +40,20 @@ class WordgameApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ### 
+    begin
+      valid = @game.guess(letter)
+      repeated = (@game.guesses.include? letter)|| (@game.wrong_guesses.include? letter)
+    
+    rescue ArgumentError
+      valid = false
+    end
+      
+    if !valid 
+      flash[:message]='Invalid guess.'
+    elsif !valid&& repeated
+      flash[:message]='You have already used that letter.'
+
+    end
     # Note: in addition to passing the provided Cucumber tests, you also need
     # to handle repeated guesses and invalid guesses.  See the comments 
     # above for what to set the flash hash to.  See the views/show.erb view
@@ -54,6 +68,14 @@ class WordgameApp < Sinatra::Base
   # wrong_guesses and word_with_guesses from @game.
   get '/show' do
     ### YOUR CODE HERE ###
+    score = @game.check_win_or_lose
+    if score == :win
+      redirect '/win'
+    elsif score == :lose
+      redirect '/lose'
+    else
+      erb :show
+    end
     # Note: "erb :show" causes us to process the view show.erb.
     # The views, e.g. show.erb are processed by first using 
     # the layout.erb view, and when it reaches "<%= yield %>", 
@@ -61,25 +83,37 @@ class WordgameApp < Sinatra::Base
     # The layout.erb view allows us to use the same web page layout
     # for all parts of the app. You may delete this note.
     #  
-    erb :show # You may change/remove this line
+    #erb :show # You may change/remove this line
   end
    
   get '/win' do
     ### YOUR CODE HERE ###
+    score=@game.check_win_or_lose
+    if score==:win
+      erb :win
+    else
+      redirect '/show'
+    end
     # Note: If a user goes directly to this route, e.g. they type this 
     # route in directly, they could cheat and see the winning page.
     # You need to write code to redirect them to /show if they
     # have not actually won the game yet or to /lose if they have lost.
     # You may delete this note.
-    erb :win # You may change/remove this line
+    #erb :win # You may change/remove this line
   end
   
   get '/lose' do
     ### YOUR CODE HERE ###
+    score=@game.check_win_or_lose
+    if score==:lose
+      erb :lose
+    else
+      redirect '/show'
+    end
     # Note: You need to write code to redirect them to /show if they
     # have not actually lost the game yet or to /win if they have won.
     # You may delete this note.
-    erb :lose # You may change/remove this line
+    #erb :lose # You may change/remove this line
   end
   
 end
