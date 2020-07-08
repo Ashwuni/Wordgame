@@ -1,6 +1,6 @@
 # hw-wordgame
 
-Name: Your name here.
+Name: Ashwuni Kumar
 
 Notes: Any special notes to the TA or instructor here.
 
